@@ -1,0 +1,11 @@
+{
+  "name": "@01ht/ht-user",
+  "version": "1.0.0",
+  "main": "ht-user.js",
+  "repository": "01ht/ht-user",
+  "author": "01ht Ltd",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@polymer/lit-element": "^0.5.1"
+  }
+}
