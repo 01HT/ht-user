@@ -1,11 +1,10 @@
-'use strict';
-import { LitElement, html } from '@polymer/lit-element';
+"use strict";
+import { LitElement, html } from "@polymer/lit-element";
 import "./ht-user-about";
 import "./ht-user-portfolio";
 import "@01ht/ht-user-avatar";
 import "@01ht/ht-spinner";
 import "@polymer/paper-tooltip";
-
 
 import {
   callTestHTTPFunction,
@@ -13,9 +12,9 @@ import {
 } from "@01ht/ht-client-helper-functions";
 
 class HTUser extends LitElement {
-  _render({ userData, loading, page, cartChangeInProcess}) {
-    if(userData === undefined) {
-      return html`<ht-spinner page></ht-spinner>`
+  _render({ userData, loading, page, cartChangeInProcess }) {
+    if (userData === undefined) {
+      return html`<ht-spinner page></ht-spinner>`;
     }
     return html`
     <style>
@@ -171,96 +170,160 @@ class HTUser extends LitElement {
       <div id="sidebar" hidden?=${loading}>
         <ht-user-avatar data=${userData} size="128" verifiedSize=${28}></ht-user-avatar>
         <h1 id="displayName">${userData.displayName}</h1>
-        <div id="fullname" hidden?=${userData.firstName === "" && userData.lastName === ""}>${userData.firstName} ${userData.lastName}</div>
-        <div id="social" hidden?=${userData.website === "" && userData.google === "" && userData.facebook === "" && userData.twitter === "" && userData.github === ""}>
-          ${userData.website !== "" ? html`<a href="${userData.website}" target="_blank">
+        <div id="fullname" hidden?=${userData.firstName === "" &&
+          userData.lastName === ""}>${userData.firstName} ${
+      userData.lastName
+    }</div>
+        <div id="social" hidden?=${userData.website === "" &&
+          userData.google === "" &&
+          userData.facebook === "" &&
+          userData.twitter === "" &&
+          userData.github === ""}>
+          ${
+            userData.website !== ""
+              ? html`<a href="${userData.website}" target="_blank">
             <iron-icon src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532588175/logos/website/website-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Сайт пользователя</paper-tooltip>
-          </a>` : ""}
-          ${userData.twitter !== "" ? html`<a href="${userData.twitter}" target="_blank">
+          </a>`
+              : ""
+          }
+          ${
+            userData.twitter !== ""
+              ? html`<a href="${userData.twitter}" target="_blank">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532587138/logos/twitter/twitter-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл Twitter</paper-tooltip>
-          </a>` : ""}
-          ${userData.facebook !== "" ? html`<a href="${userData.facebook}" target="_blank">
+          </a>`
+              : ""
+          }
+          ${
+            userData.facebook !== ""
+              ? html`<a href="${userData.facebook}" target="_blank">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532586978/logos/facebook/logo-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл Facebook</paper-tooltip>
-          </a>` : ""}
-           ${userData.google !== "" ? html`<a href="${userData.google}" target="_blank">
+          </a>`
+              : ""
+          }
+           ${
+             userData.google !== ""
+               ? html`<a href="${userData.google}" target="_blank">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532600717/logos/google/google-plus.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл Google+</paper-tooltip>
-          </a>` : ""}
-          ${userData.github !== "" ? html`<a href="${userData.github}" target="_blank">
+          </a>`
+               : ""
+           }
+          ${
+            userData.github !== ""
+              ? html`<a href="${userData.github}" target="_blank">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532587414/logos/github/github-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл GitHub</paper-tooltip>
-          </a>` : ""}
+          </a>`
+              : ""
+          }
         </div>
-        <div id="info" hidden?=${userData.email === "" && userData.phone === "" && userData.country === "" && userData.city === "" && userData.company === "" && userData.position === ""}>
-          ${userData.email !== "" ? html`<div class="info">
+        <div id="info" hidden?=${userData.email === "" &&
+          userData.phone === "" &&
+          userData.country === "" &&
+          userData.city === "" &&
+          userData.company === "" &&
+          userData.position === ""}>
+          ${
+            userData.email !== ""
+              ? html`<div class="info">
             <div class="icon-block">
               <iron-icon icon="ht-user-icons:email"></iron-icon>
               <paper-tooltip position="right" animation-delay="0" offset="4">Email</paper-tooltip>
             </div>
             <div class="text">${userData.email}</div>
-            </div>` : ""}
-          ${userData.phone !== "" ? html`<div class="info">
+            </div>`
+              : ""
+          }
+          ${
+            userData.phone !== ""
+              ? html`<div class="info">
             <div class="icon-block">
               <iron-icon icon="ht-user-icons:phone"></iron-icon>
               <paper-tooltip position="right" animation-delay="0" offset="4">Телефон</paper-tooltip>
             </div>
             <div class="text">${userData.phone}</div>
-            </div>` : ""}
-          ${userData.country !== "" ? html`<div class="info">
+            </div>`
+              : ""
+          }
+          ${
+            userData.country !== ""
+              ? html`<div class="info">
             <div class="icon-block">
               <iron-icon icon="ht-user-icons:flag"></iron-icon>
               <paper-tooltip position="right" animation-delay="0" offset="4">Страна</paper-tooltip>
             </div>
             <div class="text">${userData.country}</div>
-            </div>` : ""}
-          ${userData.city !== "" ? html`<div class="info">
+            </div>`
+              : ""
+          }
+          ${
+            userData.city !== ""
+              ? html`<div class="info">
             <div class="icon-block">
               <iron-icon icon="ht-user-icons:location-city"></iron-icon>
               <paper-tooltip position="right" animation-delay="0" offset="4">Город</paper-tooltip>
             </div>
             <div class="text">${userData.city}</div>
-            </div>` : ""}
-          ${userData.company !== "" ? html`<div class="info">
+            </div>`
+              : ""
+          }
+          ${
+            userData.company !== ""
+              ? html`<div class="info">
              <div class="icon-block">
                 <iron-icon icon="ht-user-icons:business"></iron-icon>
                 <paper-tooltip position="right" animation-delay="0" offset="4">Место работы</paper-tooltip>
               </div>
               <div class="text">${userData.company}</div>
-            </div>` : ""}
-           ${userData.position !== "" ? html`<div class="info">
+            </div>`
+              : ""
+          }
+           ${
+             userData.position !== ""
+               ? html`<div class="info">
               <div class="icon-block">
                 <iron-icon icon="ht-user-icons:assignment-ind"></iron-icon>
                 <paper-tooltip position="right" animation-delay="0" offset="4">Должность</paper-tooltip>
               </div>
               <div class="text">${userData.position}</div>
-            </div>` : ""}
-            ${userData.isAuthor && userData.sales > 0 ? html`<div id="sales" class="info">
+            </div>`
+               : ""
+           }
+            ${
+              userData.isAuthor && userData.sales > 0
+                ? html`<div id="sales" class="info">
               <div class="icon-block">
                 <iron-icon icon="ht-user-icons:shopping-cart"></iron-icon>
                 <paper-tooltip position="right" animation-delay="0" offset="4">Продажи</paper-tooltip>
               </div>
               <div class="text">${userData.sales}</div>
-              </div>` : ""}
+              </div>`
+                : ""
+            }
         </div>
       </div>
       <div id="main" hidden?=${loading}>
         <div id="nav">
-          <a href="/user/${userData.uid}/about" class="menu" active?=${page === "about"}>О себе</a>
-          <a href="/user/${userData.uid}/portfolio" class="menu" active?=${page === "portfolio"}>Портфолио</a>
+          <a href="/user/${userData.uid}/about" class="menu" active?=${page ===
+      "about"}>О себе</a>
+          <a href="/user/${
+            userData.uid
+          }/portfolio" class="menu" active?=${page ===
+      "portfolio"} hidden?=${!userData.isAuthor}>Портфолио</a>
         </div>
         <ht-user-about class="page" active?=${page ===
-      "about"} data=${userData}></ht-user-about>
+          "about"} data=${userData}></ht-user-about>
         <ht-user-portfolio class="page" active?=${page ===
-      "portfolio"} data=${userData} cartChangeInProcess=${cartChangeInProcess}></ht-user-portfolio>
+          "portfolio"} data=${userData} cartChangeInProcess=${cartChangeInProcess}></ht-user-portfolio>
       </div>
     </div>`;
   }
 
   static get is() {
-      return 'ht-user';
+    return "ht-user";
   }
 
   static get properties() {
@@ -278,7 +341,7 @@ class HTUser extends LitElement {
       this.page = page;
       if (this.userId === userId) return;
       this.userId = userId;
-      console.log("update")
+      console.log("update");
       this.loading = true;
       let userData = await callTestHTTPFunction({
         name: "httpsUsersGetUserPageData",
@@ -287,10 +350,10 @@ class HTUser extends LitElement {
           headers: new Headers({
             "Content-Type": "application/json"
           }),
-          body: JSON.stringify({userId: userId})
+          body: JSON.stringify({ userId: userId })
         }
       });
-      
+      console.log(userData);
       // if (this.userId === userId) return;
       // this.userId = userId;
       this.userData = userData;

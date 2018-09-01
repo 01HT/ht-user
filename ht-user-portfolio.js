@@ -25,7 +25,7 @@ class HTUserPortfolio extends LitElement {
     </style>
     <div id="container">
         <ht-spinner hidden?=${!loading} page></ht-spinner>
-        <ht-elements-catalog-list view="grid" hidden?=${loading} cartChangeInProcess=${cartChangeInProcess}></ht-elements-catalog-list>
+        <ht-elements-catalog-list view="grid" hidden?=${loading} cartChangeInProcess=${cartChangeInProcess} portfolio></ht-elements-catalog-list>
     </div>`;
   }
 
@@ -58,13 +58,13 @@ class HTUserPortfolio extends LitElement {
       const snapshot = await firebase
         .firestore()
         .collection("items")
-        .where("authorId", "==", data.uid)
+        .where("ownerId", "==", data.uid)
         // .orderBy("created", "desc")
         .get();
       snapshot.forEach(doc => {
         const data = doc.data();
         data.itemId = doc.id;
-        items.push(data);
+        if (data.published) items.push(data);
       });
       this.shadowRoot.querySelector("ht-elements-catalog-list").data = items;
       this.loading = false;

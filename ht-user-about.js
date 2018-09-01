@@ -1,6 +1,7 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
 import "@01ht/ht-wysiwyg/ht-wysiwyg-viewer.js";
+import "@01ht/ht-nothing-found-placeholder";
 
 class HTUserAbout extends LitElement {
   _render({ data }) {
@@ -18,12 +19,26 @@ class HTUserAbout extends LitElement {
         margin: auto;
       }
     
-      [hidden] {
+      [hidden], [hide] {
         display: none
+      }
+
+      ht-nothing-found-placeholder {
+        display:none
+      }
+
+      ht-nothing-found-placeholder[show] {
+        display: block;
       }
     </style>
     <div id="container">
-        <ht-wysiwyg-viewer data=${data.description}></ht-wysiwyg-viewer>
+      <ht-nothing-found-placeholder main="Нет информации" show?=${
+        data.description === '{"ops":[{"insert":"\\n"}]}' ||
+        data.description === "{}"
+          ? true
+          : false
+      }></ht-nothing-found-placeholder>
+      <ht-wysiwyg-viewer data=${data.description}></ht-wysiwyg-viewer>
     </div>`;
   }
 
