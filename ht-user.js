@@ -1,18 +1,21 @@
 "use strict";
 import { LitElement, html } from "@polymer/lit-element";
-import "./ht-user-about";
-import "./ht-user-portfolio";
-import "@01ht/ht-user-avatar";
-import "@01ht/ht-spinner";
 import "@polymer/paper-tooltip";
 
+import "@01ht/ht-user-avatar";
+import "@01ht/ht-spinner";
+
+import "./ht-user-about";
+import "./ht-user-portfolio";
+
 import {
-  callTestHTTPFunction,
+  // callTestHTTPFunction,
   callFirebaseHTTPFunction
 } from "@01ht/ht-client-helper-functions";
 
 class HTUser extends LitElement {
-  _render({ userData, loading, page, cartChangeInProcess }) {
+  render() {
+    const { userData, loading, page, cartChangeInProcess } = this;
     if (userData === undefined) {
       return html`<ht-spinner page></ht-spinner>`;
     }
@@ -165,16 +168,16 @@ class HTUser extends LitElement {
             </defs>
         </svg>
     </iron-iconset-svg>
-    <div id="container" loading?=${loading}>
-      <ht-spinner hidden?=${!loading} page></ht-spinner>
-      <div id="sidebar" hidden?=${loading}>
-        <ht-user-avatar data=${userData} size="128" verifiedSize=${28}></ht-user-avatar>
+    <div id="container" ?loading=${loading}>
+      <ht-spinner ?hidden=${!loading} page></ht-spinner>
+      <div id="sidebar" ?hidden=${loading}>
+        <ht-user-avatar .data=${userData} size="128" verifiedSize={28}></ht-user-avatar>
         <h1 id="displayName">${userData.displayName}</h1>
-        <div id="fullname" hidden?=${userData.firstName === "" &&
+        <div id="fullname" ?hidden=${userData.firstName === "" &&
           userData.lastName === ""}>${userData.firstName} ${
       userData.lastName
     }</div>
-        <div id="social" hidden?=${userData.website === "" &&
+        <div id="social" ?hidden=${userData.website === "" &&
           userData.google === "" &&
           userData.facebook === "" &&
           userData.twitter === "" &&
@@ -220,7 +223,7 @@ class HTUser extends LitElement {
               : ""
           }
         </div>
-        <div id="info" hidden?=${userData.email === "" &&
+        <div id="info" ?hidden=${userData.email === "" &&
           userData.phone === "" &&
           userData.country === "" &&
           userData.city === "" &&
@@ -305,19 +308,19 @@ class HTUser extends LitElement {
             }
         </div>
       </div>
-      <div id="main" hidden?=${loading}>
+      <div id="main" ?hidden=${loading}>
         <div id="nav">
-          <a href="/user/${userData.uid}/about" class="menu" active?=${page ===
+          <a href="/user/${userData.uid}/about" class="menu" ?active=${page ===
       "about"}>О себе</a>
           <a href="/user/${
             userData.uid
-          }/portfolio" class="menu" active?=${page ===
-      "portfolio"} hidden?=${!userData.isAuthor}>Портфолио</a>
+          }/portfolio" class="menu" ?active=${page ===
+      "portfolio"} ?hidden=${!userData.isAuthor}>Портфолио</a>
         </div>
-        <ht-user-about class="page" active?=${page ===
-          "about"} data=${userData}></ht-user-about>
-        <ht-user-portfolio class="page" active?=${page ===
-          "portfolio"} data=${userData} cartChangeInProcess=${cartChangeInProcess}></ht-user-portfolio>
+        <ht-user-about class="page" ?active=${page ===
+          "about"} .data=${userData}></ht-user-about>
+        <ht-user-portfolio class="page" ?active=${page ===
+          "portfolio"} .data=${userData} .cartChangeInProcess=${cartChangeInProcess}></ht-user-portfolio>
       </div>
     </div>`;
   }
@@ -328,22 +331,21 @@ class HTUser extends LitElement {
 
   static get properties() {
     return {
-      userData: Object,
-      loading: Boolean,
-      page: String,
-      userId: String,
-      cartChangeInProcess: Boolean
+      userData: { type: Object },
+      loading: { type: Boolean },
+      page: { type: String },
+      userId: { type: String },
+      cartChangeInProcess: { type: Boolean }
     };
   }
 
-  async update(userId, page) {
+  async updateData(userId, page) {
     try {
       this.page = page;
       if (this.userId === userId) return;
       this.userId = userId;
-      console.log("update");
       this.loading = true;
-      let userData = await callTestHTTPFunction({
+      let userData = await callFirebaseHTTPFunction({
         name: "httpsUsersGetUserPageData",
         options: {
           method: "POST",
@@ -353,13 +355,7 @@ class HTUser extends LitElement {
           body: JSON.stringify({ userId: userId })
         }
       });
-      console.log(userData);
-      // if (this.userId === userId) return;
-      // this.userId = userId;
       this.userData = userData;
-      // if (this.shadowRoot.querySelector("ht-wysiwyg-viewer") !== null) {
-      //   this.shadowRoot.querySelector("ht-wysiwyg-viewer").data = this.userData.description;
-      // }
       this.loading = false;
     } catch (error) {
       console.log("update: " + error.message);

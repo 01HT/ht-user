@@ -1,11 +1,17 @@
 {
   "name": "@01ht/ht-user",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "ht-user.js",
   "repository": "01ht/ht-user",
-  "author": "01ht Ltd",
+  "author": "01HT Ltd",
   "license": "UNLICENSED",
   "dependencies": {
-    "@polymer/lit-element": "^0.5.1"
+    "@polymer/lit-element": "^0.6.1",
+    "@polymer/paper-tooltip": "^3.0.1",
+    "@01ht/ht-user-avatar": "^1.0.0",
+    "@01ht/ht-spinner": "^1.0.0",
+    "@01ht/ht-elements-catalog": "^1.0.0",
+    "@01ht/ht-wysiwyg": "^1.0.0",
+    "@01ht/ht-nothing-found-placeholder": "^1.0.0"
   }
 }

@@ -4,7 +4,8 @@ import "@01ht/ht-elements-catalog/ht-elements-catalog-list.js";
 import "@01ht/ht-spinner";
 
 class HTUserPortfolio extends LitElement {
-  _render({ loading, cartChangeInProcess }) {
+  render() {
+    const { loading, cartChangeInProcess } = this;
     return html`
     <style>
       :host {
@@ -24,8 +25,8 @@ class HTUserPortfolio extends LitElement {
       }
     </style>
     <div id="container">
-        <ht-spinner hidden?=${!loading} page></ht-spinner>
-        <ht-elements-catalog-list view="grid" hidden?=${loading} cartChangeInProcess=${cartChangeInProcess} portfolio></ht-elements-catalog-list>
+        <ht-spinner ?hidden=${!loading} page></ht-spinner>
+        <ht-elements-catalog-list view="grid" ?hidden=${loading} .cartChangeInProcess=${cartChangeInProcess} portfolio></ht-elements-catalog-list>
     </div>`;
   }
 
@@ -35,9 +36,9 @@ class HTUserPortfolio extends LitElement {
 
   static get properties() {
     return {
-      data: Object,
-      loading: Boolean,
-      cartChangeInProcess: Boolean
+      data: { type: Object },
+      loading: { type: Boolean },
+      cartChangeInProcess: { type: Boolean }
     };
   }
 
@@ -46,8 +47,8 @@ class HTUserPortfolio extends LitElement {
     this.loading = true;
   }
 
-  _shouldRender(props, changedProps, prevProps) {
-    if (changedProps.data) this._setData(changedProps.data);
+  shouldUpdate(changedProperties) {
+    if (changedProperties.has("data")) this._setData(this.data);
     return true;
   }
 
@@ -59,7 +60,6 @@ class HTUserPortfolio extends LitElement {
         .firestore()
         .collection("items")
         .where("ownerId", "==", data.uid)
-        // .orderBy("created", "desc")
         .get();
       snapshot.forEach(doc => {
         const data = doc.data();
