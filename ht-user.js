@@ -90,6 +90,8 @@ class HTUser extends LitElement {
 
     .icon-block {
       position:relative;
+      display:flex;
+      align-items:center;
     }
 
     .info iron-icon {
