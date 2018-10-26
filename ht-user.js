@@ -8,6 +8,8 @@ import "@01ht/ht-spinner";
 import "./ht-user-about";
 import "./ht-user-portfolio";
 
+import { updateMetadata } from "pwa-helpers/metadata.js";
+
 import {
   // callTestHTTPFunction,
   callFirebaseHTTPFunction
@@ -25,6 +27,10 @@ class HTUser extends LitElement {
         display: block;
         position: relative;
         box-sizing: border-box;
+    }
+
+    ht-user-about {
+      margin-top: 16px;
     }
 
     iron-icon {
@@ -341,6 +347,20 @@ class HTUser extends LitElement {
     };
   }
 
+  updated() {
+    if (this.userData === undefined) return;
+    updateMetadata({
+      title:
+        this.page === "about"
+          ? `${this.userData.displayName} | Профайл на Elements`
+          : `${this.userData.displayName} - Портфолио | Elements`,
+      // description: info.description,
+      image: `${cloudinaryURL}/c_scale,f_auto,h_512,w_512/v${
+        this.userData.avatar.version
+      }/${this.userData.avatar.public_id}.png`
+    });
+  }
+
   async updateData(userId, page) {
     try {
       this.page = page;
@@ -357,8 +377,17 @@ class HTUser extends LitElement {
           body: JSON.stringify({ userId: userId })
         }
       });
-      this.userData = userData;
       this.loading = false;
+      if (userData.error) {
+        this.dispatchEvent(
+          new CustomEvent("page-not-found", {
+            bubbles: true,
+            composed: true
+          })
+        );
+        return;
+      }
+      this.userData = userData;
     } catch (error) {
       console.log("update: " + error.message);
     }
