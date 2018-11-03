@@ -352,8 +352,8 @@ class HTUser extends LitElement {
     updateMetadata({
       title:
         this.page === "about"
-          ? `${this.userData.displayName} | Профайл на Elements`
-          : `${this.userData.displayName} - Портфолио | Elements`,
+          ? `${this.userData.displayName} - Профайл на Elements`
+          : `${this.userData.displayName} - Портфолио`,
       // description: info.description,
       image: `${cloudinaryURL}/c_scale,f_auto,h_512,w_512/v${
         this.userData.avatar.version
@@ -371,9 +371,9 @@ class HTUser extends LitElement {
         name: "httpsUsersGetUserPageData",
         options: {
           method: "POST",
-          headers: new Headers({
+          headers: {
             "Content-Type": "application/json"
-          }),
+          },
           body: JSON.stringify({ userId: userId })
         }
       });
