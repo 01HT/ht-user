@@ -17,7 +17,7 @@ import {
 
 class HTUser extends LitElement {
   render() {
-    const { userData, loading, page, cartChangeInProcess } = this;
+    const { userData, loading, page, cartChangeInProcess, userNumber } = this;
     if (userData === undefined) {
       return html`<ht-spinner page></ht-spinner>`;
     }
@@ -318,11 +318,13 @@ class HTUser extends LitElement {
       </div>
       <div id="main" ?hidden=${loading}>
         <div id="nav">
-          <a href="/user/${userData.uid}/about" class="menu" ?active=${page ===
+          <a href="/user/${
+            userData.nameInURL
+          }/${userNumber}/about" class="menu" ?active=${page ===
       "about"}>О себе</a>
           <a href="/user/${
-            userData.uid
-          }/portfolio" class="menu" ?active=${page ===
+            userData.nameInURL
+          }/${userNumber}/portfolio" class="menu" ?active=${page ===
       "portfolio"} ?hidden=${!userData.isAuthor}>Портфолио</a>
         </div>
         <ht-user-about class="page" ?active=${page ===
@@ -342,7 +344,7 @@ class HTUser extends LitElement {
       userData: { type: Object },
       loading: { type: Boolean },
       page: { type: String },
-      userId: { type: String },
+      userNumber: { type: Number },
       cartChangeInProcess: { type: Boolean }
     };
   }
@@ -361,11 +363,11 @@ class HTUser extends LitElement {
     });
   }
 
-  async updateData(userId, page) {
+  async updateData(userNumber, page) {
     try {
       this.page = page;
-      if (this.userId === userId) return;
-      this.userId = userId;
+      if (this.userNumber === userNumber) return;
+      this.userNumber = userNumber;
       this.loading = true;
       let userData = await callFirebaseHTTPFunction({
         name: "httpsUsersGetUserPageData",
@@ -374,7 +376,7 @@ class HTUser extends LitElement {
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ userId: userId })
+          body: JSON.stringify({ userNumber: userNumber })
         }
       });
       this.loading = false;
