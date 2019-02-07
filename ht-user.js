@@ -8,7 +8,10 @@ import "@01ht/ht-spinner";
 import "./ht-user-about";
 import "./ht-user-portfolio";
 
-import { updateMetadata } from "pwa-helpers/metadata.js";
+import {
+  updateMetadata,
+  getMetaDescriptionFromQuillObject
+} from "@01ht/ht-client-helper-functions/metadata.js";
 
 import {
   // callTestHTTPFunction,
@@ -351,15 +354,36 @@ class HTUser extends LitElement {
 
   updated() {
     if (this.userData === undefined) return;
+    let description = "";
+    if (this.page === "about") {
+      try {
+        description = getMetaDescriptionFromQuillObject(
+          JSON.parse(this.userData.description)
+        );
+      } catch (err) {
+        description = "";
+      }
+    }
+
     updateMetadata({
       title:
         this.page === "about"
-          ? `${this.userData.displayName} - Профайл на Elements`
-          : `${this.userData.displayName} - Портфолио`,
-      // description: info.description,
+          ? `${this.userData.displayName} | Профайл на Elements`
+          : `${this.userData.displayName} - Портфолио | Elements`,
       image: `${cloudinaryURL}/c_scale,f_auto,h_512,w_512/v${
         this.userData.avatar.version
-      }/${this.userData.avatar.public_id}.png`
+      }/${this.userData.avatar.public_id}.png`,
+      imageAlt: `${this.userData.displayName}`,
+      canonical: `${
+        this.page === "about"
+          ? `https://elements.01.ht/user/${this.userData.nameInURL}/${
+              this.userData.userNumber
+            }`
+          : `https://elements.01.ht/user/${this.userData.nameInURL}/${
+              this.userData.userNumber
+            }/portfolio`
+      }`,
+      description: description
     });
   }
 
