@@ -1,5 +1,5 @@
 "use strict";
-import { LitElement, html } from "@polymer/lit-element";
+import { LitElement, html, css } from "lit-element";
 import "@polymer/paper-tooltip";
 
 import "@01ht/ht-user-avatar";
@@ -19,13 +19,7 @@ import {
 } from "@01ht/ht-client-helper-functions";
 
 class HTUser extends LitElement {
-  render() {
-    const { userData, loading, page, cartChangeInProcess, userNumber } = this;
-    if (userData === undefined) {
-      return html`<ht-spinner page></ht-spinner>`;
-    }
-    return html`
-    <style>
+  static styles = css`<style>
     :host {
         display: block;
         position: relative;
@@ -164,7 +158,14 @@ class HTUser extends LitElement {
     #social[hidden], #info[hidden], #main[hidden], #sidebar[hidden], ht-spinner[hidden] {
       display:none;
     }
-    </style>
+    </style>`;
+
+  render() {
+    const { userData, loading, page, cartChangeInProcess, userNumber } = this;
+    if (userData === undefined) {
+      return html`<ht-spinner page></ht-spinner>`;
+    }
+    return html`
     <iron-iconset-svg size="24" name="ht-user-icons">
         <svg>
             <defs>
@@ -179,20 +180,20 @@ class HTUser extends LitElement {
             </defs>
         </svg>
     </iron-iconset-svg>
-    <div id="container" ?loading=${loading}>
-      <ht-spinner ?hidden=${!loading} page></ht-spinner>
-      <div id="sidebar" ?hidden=${loading}>
-        <ht-user-avatar .data=${userData} size="128" verifiedSize={28}></ht-user-avatar>
+    <div id="container" ?loading="${loading}">
+      <ht-spinner ?hidden="${!loading}" page></ht-spinner>
+      <div id="sidebar" ?hidden="${loading}">
+        <ht-user-avatar .data="${userData}" .size="128" .verifiedSize="28"></ht-user-avatar>
         <h1 id="displayName">${userData.displayName}</h1>
-        <div id="fullname" ?hidden=${userData.firstName === "" &&
-          userData.lastName === ""}>${userData.firstName} ${
+        <div id="fullname" ?hidden="${userData.firstName === "" &&
+          userData.lastName === ""}">${userData.firstName} ${
       userData.lastName
     }</div>
-        <div id="social" ?hidden=${userData.website === "" &&
+        <div id="social" ?hidden="${userData.website === "" &&
           userData.google === "" &&
           userData.facebook === "" &&
           userData.twitter === "" &&
-          userData.github === ""}>
+          userData.github === ""}">
           ${
             userData.website !== ""
               ? html`<a href="${userData.website}" target="_blank">
@@ -234,12 +235,12 @@ class HTUser extends LitElement {
               : ""
           }
         </div>
-        <div id="info" ?hidden=${userData.email === "" &&
+        <div id="info" ?hidden="${userData.email === "" &&
           userData.phone === "" &&
           userData.country === "" &&
           userData.city === "" &&
           userData.company === "" &&
-          userData.position === ""}>
+          userData.position === ""}">
           ${
             userData.email !== ""
               ? html`<div class="info">
@@ -295,51 +296,47 @@ class HTUser extends LitElement {
             </div>`
               : ""
           }
-           ${
-             userData.position !== ""
-               ? html`<div class="info">
+          ${
+            userData.position !== ""
+              ? html`<div class="info">
               <div class="icon-block">
                 <iron-icon icon="ht-user-icons:assignment-ind"></iron-icon>
                 <paper-tooltip position="right" animation-delay="0" offset="4">Должность</paper-tooltip>
               </div>
               <div class="text">${userData.position}</div>
             </div>`
-               : ""
-           }
-            ${
-              userData.isAuthor && userData.sales > 0
-                ? html`<div id="sales" class="info">
-              <div class="icon-block">
-                <iron-icon icon="ht-user-icons:shopping-cart"></iron-icon>
-                <paper-tooltip position="right" animation-delay="0" offset="4">Продажи</paper-tooltip>
-              </div>
-              <div class="text">${userData.sales}</div>
-              </div>`
-                : ""
-            }
+              : ""
+          }
+          ${
+            userData.isAuthor && userData.sales > 0
+              ? html`<div id="sales" class="info">
+            <div class="icon-block">
+              <iron-icon icon="ht-user-icons:shopping-cart"></iron-icon>
+              <paper-tooltip position="right" animation-delay="0" offset="4">Продажи</paper-tooltip>
+            </div>
+            <div class="text">${userData.sales}</div>
+            </div>`
+              : ""
+          }
         </div>
       </div>
-      <div id="main" ?hidden=${loading}>
+      <div id="main" ?hidden="${loading}">
         <div id="nav">
           <a href="/user/${
             userData.nameInURL
-          }/${userNumber}/about" class="menu" ?active=${page ===
-      "about"}>О себе</a>
+          }/${userNumber}/about" class="menu" ?active="${page ===
+      "about"}">О себе</a>
           <a href="/user/${
             userData.nameInURL
-          }/${userNumber}/portfolio" class="menu" ?active=${page ===
-      "portfolio"} ?hidden=${!userData.isAuthor}>Портфолио</a>
+          }/${userNumber}/portfolio" class="menu" ?active="${page ===
+      "portfolio"}" ?hidden="${!userData.isAuthor}">Портфолио</a>
         </div>
-        <ht-user-about class="page" ?active=${page ===
-          "about"} .data=${userData}></ht-user-about>
-        <ht-user-portfolio class="page" ?active=${page ===
-          "portfolio"} .data=${userData} .cartChangeInProcess=${cartChangeInProcess}></ht-user-portfolio>
+        <ht-user-about class="page" ?active="${page ===
+          "about"}" .data="${userData}"></ht-user-about>
+        <ht-user-portfolio class="page" ?active="${page ===
+          "portfolio"}" .data="${userData}" .cartChangeInProcess="${cartChangeInProcess}"></ht-user-portfolio>
       </div>
     </div>`;
-  }
-
-  static get is() {
-    return "ht-user";
   }
 
   static get properties() {
@@ -420,4 +417,4 @@ class HTUser extends LitElement {
   }
 }
 
-customElements.define(HTUser.is, HTUser);
+customElements.define("ht-user", HTUser);
