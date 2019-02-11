@@ -25,6 +25,10 @@ class HTUser extends LitElement {
     return [
       stylesBasicWebcomponents,
       css`
+        a {
+          outline: none;
+        }
+
         ht-user-about {
           margin-top: 16px;
         }
