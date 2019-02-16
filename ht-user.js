@@ -194,7 +194,7 @@ class HTUser extends LitElement {
     <div id="container" ?loading="${loading}">
       <ht-spinner ?hidden="${!loading}" page></ht-spinner>
       <div id="sidebar" ?hidden="${loading}">
-        <ht-user-avatar .data="${userData}" .size="128" .verifiedSize="28"></ht-user-avatar>
+        <ht-user-avatar .data="${userData}" .size="${128}" .verifiedSize="${28}"></ht-user-avatar>
         <h1 id="displayName">${userData.displayName}</h1>
         <div id="fullname" ?hidden="${userData.firstName === "" &&
           userData.lastName === ""}">${userData.firstName} ${
