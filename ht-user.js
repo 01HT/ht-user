@@ -221,7 +221,9 @@ class HTUser extends LitElement {
           userData.github === ""}">
           ${
             userData.website !== ""
-              ? html`<a href="${userData.website}" target="_blank">
+              ? html`<a href="${
+                  userData.website
+                }" target="_blank" rel="noopener nofollow">
             <iron-icon src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532588175/logos/website/website-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Сайт пользователя</paper-tooltip>
           </a>`
@@ -229,7 +231,9 @@ class HTUser extends LitElement {
           }
           ${
             userData.twitter !== ""
-              ? html`<a href="${userData.twitter}" target="_blank">
+              ? html`<a href="${
+                  userData.twitter
+                }" target="_blank" rel="noopener nofollow">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532587138/logos/twitter/twitter-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл Twitter</paper-tooltip>
           </a>`
@@ -237,7 +241,9 @@ class HTUser extends LitElement {
           }
           ${
             userData.facebook !== ""
-              ? html`<a href="${userData.facebook}" target="_blank">
+              ? html`<a href="${
+                  userData.facebook
+                }" target="_blank" rel="noopener nofollow">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532586978/logos/facebook/logo-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл Facebook</paper-tooltip>
           </a>`
@@ -245,7 +251,9 @@ class HTUser extends LitElement {
           }
            ${
              userData.google !== ""
-               ? html`<a href="${userData.google}" target="_blank">
+               ? html`<a href="${
+                   userData.google
+                 }" target="_blank" rel="noopener nofollow">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532600717/logos/google/google-plus.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл Google+</paper-tooltip>
           </a>`
@@ -253,7 +261,9 @@ class HTUser extends LitElement {
            }
           ${
             userData.github !== ""
-              ? html`<a href="${userData.github}" target="_blank">
+              ? html`<a href="${
+                  userData.github
+                }" target="_blank" rel="noopener nofollow">
             <iron-icon  src="https://res.cloudinary.com/cdn-01ht/image/upload/v1532587414/logos/github/github-color.svg"></iron-icon>
             <paper-tooltip position="right" animation-delay="0" offset="4">Профайл GitHub</paper-tooltip>
           </a>`
