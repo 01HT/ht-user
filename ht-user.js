@@ -325,8 +325,7 @@ class HTUser extends LitElement {
               ? html`<div class="info">
              <div class="icon-block">
                 <iron-icon icon="ht-user-icons:business"></iron-icon>
-                <paper-tooltip position="right" animation-delay="0" offset="4">Место работы</paper-tooltip>
-              </div>
+                <paper-tooltip position="right" animation-delay="0" offset="4">Место работы</paper-tooltip> </div>
               <div class="text">${userData.company}</div>
             </div>`
               : ""
@@ -396,8 +395,7 @@ class HTUser extends LitElement {
         description = "";
       }
     }
-
-    updateMetadata({
+    let meta = {
       title:
         this.page === "about"
           ? `${this.userData.displayName} | Профайл на Elements`
@@ -416,7 +414,9 @@ class HTUser extends LitElement {
             }/portfolio`
       }`,
       description: description
-    });
+    };
+    if (description === "") meta.noindex = "noindex,nofollow";
+    updateMetadata(meta);
   }
 
   async updateData(userNumber, page) {
