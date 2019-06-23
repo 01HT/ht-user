@@ -13,11 +13,6 @@ import {
   getMetaDescriptionFromQuillObject
 } from "@01ht/ht-client-helper-functions/metadata.js";
 
-import {
-  // callTestHTTPFunction,
-  callFirebaseHTTPFunction
-} from "@01ht/ht-client-helper-functions";
-
 import { stylesBasicWebcomponents } from "@01ht/ht-theme/styles";
 
 class HTUser extends LitElement {
@@ -425,16 +420,17 @@ class HTUser extends LitElement {
       if (this.userNumber === userNumber) return;
       this.userNumber = userNumber;
       this.loading = true;
-      let userData = await callFirebaseHTTPFunction({
-        name: "httpsUsersGetUserPageData",
-        options: {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ userNumber: userNumber })
-        }
+
+      let userData;
+      const snapshot = await db
+        .collection("usersPublic")
+        .where("userNumber", "==", userNumber)
+        .get();
+
+      snapshot.forEach(doc => {
+        userData = doc.data();
       });
+
       this.loading = false;
       if (userData.error) {
         this.dispatchEvent(
