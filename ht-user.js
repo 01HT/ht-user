@@ -420,13 +420,24 @@ class HTUser extends LitElement {
       if (this.userNumber === userNumber) return;
       this.userNumber = userNumber;
       this.loading = true;
+      let snapshot = await window.firebase
+        .firestore()
+        .collection("usersPublic")
+        .where("userNumber", "==", +userNumber)
+        .limit(1)
+        .get();
+      this.loading = false;
+      if (snapshot.empty) {
+        this.dispatchEvent(
+          new CustomEvent("page-not-found", {
+            bubbles: true,
+            composed: true
+          })
+        );
+        return;
+      }
 
       let userData;
-      const snapshot = await db
-        .collection("usersPublic")
-        .where("userNumber", "==", userNumber)
-        .get();
-
       snapshot.forEach(doc => {
         userData = doc.data();
       });
