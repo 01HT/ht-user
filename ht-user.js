@@ -411,10 +411,10 @@ class HTUser extends LitElement {
       imageAlt: `${this.userData.displayName}`,
       canonical: `${
         this.page === "about"
-          ? `https://elements.01.ht/user/${this.userData.nameInURL}/${
+          ? `${window.origin}/user/${this.userData.nameInURL}/${
               this.userData.userNumber
             }`
-          : `https://elements.01.ht/user/${this.userData.nameInURL}/${
+          : `${window.origin}/user/${this.userData.nameInURL}/${
               this.userData.userNumber
             }/portfolio`
       }`,
